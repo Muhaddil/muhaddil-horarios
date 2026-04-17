@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/nombre-de-tu-repo',
+  basePath: '/muhaddil-horarios',
   typescript: {
     ignoreBuildErrors: true,
   },
