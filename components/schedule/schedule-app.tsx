@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { Hexagon, Printer } from "lucide-react"
+import { Hexagon, Printer, Sparkles, Layout, Share2, MousePointer2, ShieldCheck } from "lucide-react"
 import { v4 as uuidv4 } from "uuid"
 import {
   COLUMN_TYPES,
@@ -20,16 +20,32 @@ import SheetGrid from "./sheet-grid"
 import SheetTabs from "./sheet-tabs"
 import PrintView from "./print-view"
 import SharePopover from "./share-popover"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 
 export default function ScheduleApp() {
   const [state, setState] = useState<ScheduleState | null>(null)
   const [editingTitle, setEditingTitle] = useState(false)
   const [isPrinting, setIsPrinting] = useState(false)
+  const [isWelcomeOpen, setIsWelcomeOpen] = useState(false)
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const fromURL = loadFromURL()
     setState(fromURL ?? createInitialState())
+
+    const hasVisited = localStorage.getItem("horarios-app-visited")
+    if (!hasVisited) {
+      setIsWelcomeOpen(true)
+      localStorage.setItem("horarios-app-visited", "true")
+    }
   }, [])
 
   useEffect(() => {
@@ -412,6 +428,71 @@ export default function ScheduleApp() {
           </span>
         </div>
       </div>
+
+      <Dialog open={isWelcomeOpen} onOpenChange={setIsWelcomeOpen}>
+        <DialogContent className="sm:max-w-[500px] border-accent/20">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-2xl">
+              <Sparkles className="w-6 h-6 text-accent" />
+              ¡Bienvenido a Muhaddil Horarios!
+            </DialogTitle>
+            <DialogDescription className="text-base pt-2">
+              Tu nueva herramienta para organizar horarios de forma rápida y sencilla.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="grid gap-6 py-4">
+            <div className="flex gap-4 items-start">
+              <div className="mt-1 bg-accent/10 p-2 rounded-lg">
+                <ShieldCheck className="w-5 h-5 text-accent" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-sm">Privacidad Local (Sin Servidores)</h4>
+                <p className="text-sm text-muted-foreground">Tus datos no se guardan en ninguna base de datos externa. Todo vive en tu navegador y en la URL que generas.</p>
+              </div>
+            </div>
+
+            <div className="flex gap-4 items-start">
+              <div className="mt-1 bg-accent/10 p-2 rounded-lg">
+                <Layout className="w-5 h-5 text-accent" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-sm">Organización por Pestañas</h4>
+                <p className="text-sm text-muted-foreground">Crea diferentes hojas para tus actividades, turnos o deportes usando plantillas.</p>
+              </div>
+            </div>
+
+            <div className="flex gap-4 items-start">
+              <div className="mt-1 bg-accent/10 p-2 rounded-lg">
+                <MousePointer2 className="w-5 h-5 text-accent" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-sm">Edición Intuitiva</h4>
+                <p className="text-sm text-muted-foreground">Haz clic en cualquier celda para editar. Cambia el título o añade filas y columnas fácilmente.</p>
+              </div>
+            </div>
+
+            <div className="flex gap-4 items-start">
+              <div className="mt-1 bg-accent/10 p-2 rounded-lg">
+                <Share2 className="w-5 h-5 text-accent" />
+              </div>
+              <div>
+                <h4 className="font-semibold text-sm">Comparte al Instante</h4>
+                <p className="text-sm text-muted-foreground">Todo se guarda en la URL. Copia el enlace o genera un QR para que otros vean tu horario.</p>
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button 
+              onClick={() => setIsWelcomeOpen(false)} 
+              className="w-full bg-accent hover:bg-accent/90 text-white"
+            >
+              ¡Entendido, empezar a crear!
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }
