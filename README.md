@@ -31,10 +31,6 @@ Una aplicación web moderna y flexible para la gestión de horarios, actividades
 2. Instala las dependencias:
    ```bash
    npm install
-   # o
-   pnpm install
-   # o
-   yarn install
    ```
 3. Inicia el servidor de desarrollo:
    ```bash
