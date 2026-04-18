@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { Hexagon, Printer, Sparkles, Layout, Share2, MousePointer2, ShieldCheck } from "lucide-react"
+import { Hexagon, Printer, Sparkles, Layout, Share2, MousePointer2, ShieldCheck, Globe } from "lucide-react"
 import { v4 as uuidv4 } from "uuid"
 import {
   COLUMN_TYPES,
@@ -369,6 +369,16 @@ export default function ScheduleApp() {
           </div>
 
           <div className="flex items-center gap-2">
+            <a
+              href="https://muhaddil.github.io/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-md px-3 h-9 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-surface-2 transition-colors"
+              title="Otras páginas de Muhaddil"
+            >
+              <Globe className="w-4 h-4" />
+              <span className="hidden sm:inline">Otras páginas</span>
+            </a>
             <button
               type="button"
               onClick={handlePrint}
